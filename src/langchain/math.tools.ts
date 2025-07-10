@@ -3,6 +3,7 @@ import { JsonSchema7ObjectType } from "@langchain/core/utils/json_schema";
 
 type MathOperation = (a: number, b: number) => number;
 
+// Define math tools with validation
 function createMathTool(
   name: string,
   description: string,
@@ -26,7 +27,12 @@ function createMathTool(
       } else if (name === "modulo" && b === 0) {
         throw new Error("Cannot modulo by zero");
       }
-      return operation(a, b).toString();
+
+      return {
+        operation: name,
+        input: { a, b },
+        result: operation(a, b),
+      };
     }
   })();
 }

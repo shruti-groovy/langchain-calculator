@@ -11,7 +11,7 @@ const llm = new ChatGoogleGenerativeAI({
   model: "gemini-2.5-pro",
 });
 
-// Augment the LLM with tools
+// Initialize LLM with with tools
 const llmWithTools = llm.bindTools(mathTools);
 
 async function llmCall(state) {
@@ -57,10 +57,16 @@ const agentBuilder = new StateGraph(MessagesAnnotation)
   .addEdge("tools", "llmCall")
   .compile();
 
-// Invoke
+//  Run calculations
 export const runCalculator = async (query: string) => {
   const messages = [{ role: "user", content: query }];
 
   const result = await agentBuilder.invoke({ messages });
-  return result.messages.at(-1)?.content ?? "No result";
+  const final = result.messages.at(-1);
+
+  return {
+    success: true,
+    question: query,
+    answer: final?.content ?? "No result",
+  };
 };

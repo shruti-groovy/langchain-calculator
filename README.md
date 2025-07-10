@@ -66,5 +66,9 @@ Body: {
 
 Example Response:
 {
-"result": 2
+"result": {
+"success": true,
+"question": "What is 17 modulo 5?",
+"answer": "17 modulo 5 is 2.\n"
+}
 }
